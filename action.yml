@@ -42,7 +42,7 @@ runs:
         script: |
           const fs = require("fs");
           const issue_number = fs.readFileSync("./NR", "utf8").trim();
-          const sha = fs.readFileSync("./SHA", "utf8");
+          const sha = fs.readFileSync("./SHA", "utf8").trim();
           const output = fs.readFileSync(`./${issue_number}.md`, "utf8");
           async function run(issue_number, message) {
           const REACTIONS = ['+1', '-1', 'laugh', 'confused', 'heart', 'hooray', 'rocket', 'eyes'];
