@@ -16,6 +16,19 @@ inputs:
     required: true
     default: pr
 
+outputs:
+  id:
+    description: "ID of the comment"
+    value: ${{ steps.comment.outputs.id }}
+
+  body:
+    description: "Body of the comment"
+    value: ${{ steps.comment.outputs.body }}
+
+  html_url:
+    description: "HTML URL of the comment"
+    value: ${{ steps.comment.outputs.html_url }}
+
 runs:
   using: "composite"
   steps:
@@ -40,12 +53,14 @@ runs:
           var fs = require('fs');
           fs.writeFileSync('${{github.workspace}}/pr.zip', Buffer.from(download.data));
 
-    - run: |
+    - name: "Extract artifact"
+      run: |
         mkdir -p pr
         unzip pr.zip -d pr
       shell: bash
 
     - name: "Comment on PR"
+      id: comment
       uses: actions/github-script@v3
       with:
         github-token: ${{ inputs.GITHUB_TOKEN }}
