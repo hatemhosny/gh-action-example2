@@ -36,22 +36,22 @@ runs:
       uses: actions/github-script@v7
       with:
         script: |
-          var artifacts = await github.actions.listWorkflowRunArtifacts({
+          var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              run_id: ${{github.event.workflow_run.id }},
+              run_id: ${{github.rest.event.workflow_run.id }},
           });
           var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
             return artifact.name == "${{inputs.artifact}}";
           })[0];
-          var download = await github.actions.downloadArtifact({
+          var download = await github.rest.actions.downloadArtifact({
               owner: context.repo.owner,
               repo: context.repo.repo,
               artifact_id: matchArtifact.id,
               archive_format: 'zip',
           });
           var fs = require('fs');
-          fs.writeFileSync('${{github.workspace}}/pr.zip', Buffer.from(download.data));
+          fs.writeFileSync('${{github.rest.workspace}}/pr.zip', Buffer.from(download.data));
 
     - name: "Extract artifact"
       run: |
@@ -106,7 +106,7 @@ runs:
 
                 await Promise.allSettled(
                     validReactions.map(async (content) => {
-                    await github.reactions.createForIssueComment({
+                    await github.rest.reactions.createForIssueComment({
                         ...context.repo,
                         comment_id,
                         content,
@@ -116,7 +116,7 @@ runs:
                 }
 
                 async function createComment({ owner, repo, issue_number, body }) {
-                const { data: comment } = await github.issues.createComment({
+                const { data: comment } = await github.rest.issues.createComment({
                     owner,
                     repo,
                     issue_number,
@@ -133,7 +133,7 @@ runs:
                 }
 
                 async function updateComment({ owner, repo, comment_id, body }) {
-                const { data: comment } = await github.issues.updateComment({
+                const { data: comment } = await github.rest.issues.updateComment({
                     owner,
                     repo,
                     comment_id,
@@ -150,7 +150,7 @@ runs:
                 }
 
                 async function deleteComment({ owner, repo, comment_id }) {
-                const { data: comment } = await github.issues.deleteComment({
+                const { data: comment } = await github.rest.issues.deleteComment({
                     owner,
                     repo,
                     comment_id,
@@ -166,8 +166,8 @@ runs:
 
                 if (comment_tag_pattern) {
                 let comment;
-                for await (const { data: comments } of github.paginate.iterator(
-                    github.issues.listComments,
+                for await (const { data: comments } of github.rest.paginate.iterator(
+                    github.rest.issues.listComments,
                     {
                     ...context.repo,
                     issue_number,
