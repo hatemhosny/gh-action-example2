@@ -6,6 +6,8 @@ The artifact is downloaded, extracted and the first file in it is used for the c
 
 "Upsert" mode is used for multiple comments to the same pull request (the comment is updated if it already exists).
 
+Typically, this action is used in conjunction with a workflow that creates an artifact, and is triggered by a successful workflow run (see usage below).
+
 ## Inputs
 
 - `GITHUB_TOKEN`: Github token of the repository - (default: `${{ github.token }}` [automatically created by Github])
