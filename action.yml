@@ -166,7 +166,7 @@ runs:
 
                 if (comment_tag_pattern) {
                 let comment;
-                for await (const { data: comments } of github.rest.paginate.iterator(
+                for await (const { data: comments } of github.paginate.iterator(
                     github.rest.issues.listComments,
                     {
                     ...context.repo,
