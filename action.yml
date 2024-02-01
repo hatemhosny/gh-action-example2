@@ -4,6 +4,9 @@
 
 name: "Post PR Comment from Artifact"
 description: "Post PR Comment from Artifact"
+branding:
+  icon: edit
+  color: white
 
 inputs:
   GITHUB_TOKEN:
