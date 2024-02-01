@@ -51,7 +51,7 @@ runs:
               archive_format: 'zip',
           });
           var fs = require('fs');
-          fs.writeFileSync('${{github.rest.workspace}}/pr.zip', Buffer.from(download.data));
+          fs.writeFileSync('${{github.workspace}}/pr.zip', Buffer.from(download.data));
 
     - name: "Extract artifact"
       run: |
