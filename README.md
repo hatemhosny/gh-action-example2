@@ -2,6 +2,10 @@
 
 This GitHub Action allows you to post a pull request comment from an artifact.
 
+The artifact is downloaded, extracted and the first file in it is used for the comment. The file name is used as the pull request number (excluding the file extension), while the content of the file is used as the comment body.
+
+"Upsert" mode is used for multiple comments to the same pull request (the comment is updated if it already exists).
+
 ## Inputs
 
 - `GITHUB_TOKEN`: Github token of the repository - (default: `${{ github.token }}` [automatically created by Github])
